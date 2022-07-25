@@ -39,6 +39,7 @@ function TodoModal({ modalOpen, setModalOpen }) {
     modalOpen && (
       <div className={styles.wrapper}>
         <div className={styles.container}>
+          {/* Below is the close out button */}
           <div
             className={styles.closeButton}
             onClick={() => setModalOpen(false)}
@@ -46,7 +47,6 @@ function TodoModal({ modalOpen, setModalOpen }) {
             tabIndex={0}
             role="button"
           >
-            {/* This is the close out button */}
             <MdOutlineClose />
           </div>
           <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
