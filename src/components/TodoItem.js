@@ -62,11 +62,12 @@ function TodoItem({ todo }) {
           </div>
         </div>
       </div>
-
+      {/* Reusing TodoModal to open up modal when we need to edit todo */}
       <TodoModal
         type="Update"
+        todo={todo}
         modalOpen={updateModalOpen}
-        setUpdateModalOpen={setUpdateModalOpen}
+        setModalOpen={setUpdateModalOpen}
       />
     </>
   );
