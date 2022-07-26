@@ -7,7 +7,7 @@ import { addTodo } from '../slices/todoSlice';
 import styles from '../styles/modules/modal.module.scss';
 import Button from './Button';
 
-function TodoModal({ modalOpen, setModalOpen }) {
+function TodoModal({ type, modalOpen, setModalOpen }) {
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('incomplete');
   const dispatch = useDispatch();
@@ -15,20 +15,30 @@ function TodoModal({ modalOpen, setModalOpen }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (title === '') {
+      toast.error('Please enter a title.');
+      return;
+    }
+
     // console.log('todoModal', title, status);
     // Dispatch actions from addTodo in todoSlice
     if (title && status) {
-      dispatch(
-        addTodo({
-          id: uuid(),
-          // title: title, (title from setTitle hook)
-          title,
-          status,
-          time: new Date().toLocaleString(),
-        })
-      );
-      toast.success('Task Added Successfully');
-      setModalOpen(false);
+      if (type === 'Add') {
+        dispatch(
+          addTodo({
+            id: uuid(),
+            // title: title, (title from setTitle hook)
+            title,
+            status,
+            time: new Date().toLocaleString(),
+          })
+        );
+        toast.success('Task Added Successfully');
+        setModalOpen(false);
+      }
+      if (type === 'Update') {
+        console.log('updating task');
+      }
     } else {
       toast.error("Title shoudn't be empty");
     }
@@ -50,7 +60,9 @@ function TodoModal({ modalOpen, setModalOpen }) {
             <MdOutlineClose />
           </div>
           <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
-            <h1 className={styles.formTitle}> Add Task</h1>
+            <h1 className={styles.formTitle}>
+              {type === 'Update' ? 'Update' : 'Add'} Task
+            </h1>
             <label htmlFor="title">
               Title
               <input
@@ -74,7 +86,7 @@ function TodoModal({ modalOpen, setModalOpen }) {
             </label>
             <div className={styles.buttonContainer}>
               <Button type="submit" variant="primary">
-                Add Task
+                {type === 'Update' ? 'Update' : 'Add'} Task
               </Button>
               <Button
                 type="submit"
